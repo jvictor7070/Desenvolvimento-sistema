@@ -1,3 +1,4 @@
+package aula1;
 public class variavel {
 
     public static void main(String[] args) {

@@ -1,3 +1,4 @@
+package aula1;
 public class operacao {
 
     public static void main(String[] args) {
