@@ -23,6 +23,6 @@ public class CalculadoraIMC {
         System.out.printf("Seu IMC é: "+imc);
 
 
-        scanner.close();
+        sc.close();
     }
 }

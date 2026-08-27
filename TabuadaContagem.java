@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
-public class Menu_Tabuada_Contagem {
-   public Menu_Tabuada_Contagem() {
+public class TabuadaContagem {
+   public TabuadaContagem() {
    }
 
    public static void main(String[] var0) {
