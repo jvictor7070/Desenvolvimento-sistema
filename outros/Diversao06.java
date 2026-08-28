@@ -1,3 +1,4 @@
+package outros;
 import java.util.Scanner;
 public class Diversao06 {
     public static void main(String[] args) {

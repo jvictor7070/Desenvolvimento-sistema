@@ -1,3 +1,4 @@
+package outros;
 public class Par_Impar {
    public Par_Impar() {
    }

@@ -1,3 +1,4 @@
+package outros;
 public class Numeros_crescente {
    public Numeros_crescente() {
    }

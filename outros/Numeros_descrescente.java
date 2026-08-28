@@ -1,3 +1,4 @@
+package outros;
 public class Numeros_descrescente {
    public Numeros_descrescente() {
    }
