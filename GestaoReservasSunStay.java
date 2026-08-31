@@ -5,7 +5,6 @@ public class GestaoReservasSunStay {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        // Solicitação inicial do número de quartos (Máximo 5)
         int qtdQuartos = 0;
         do {
             System.out.print("Informe a quantidade de quartos disponíveis no hotel (máximo 5): ");
@@ -17,13 +16,11 @@ public class GestaoReservasSunStay {
             }
         } while (qtdQuartos < 1 || qtdQuartos > 5);
 
-        // Vetores de dados dos quartos
         int[] numerosQuartos = new int[qtdQuartos];
         int[] camasQuartos = new int[qtdQuartos];
         boolean quartosRegistrados = false;
         boolean camasRegistradas = false;
 
-        // Vetores de dados das reservas (Máximo 25)
         int maxReservas = 25;
         int[] reservasQuarto = new int[maxReservas];
         String[] reservasHospede = new String[maxReservas];
@@ -85,7 +82,6 @@ public class GestaoReservasSunStay {
                     int numQuartoReserva = sc.nextInt();
                     sc.nextLine();
 
-                    // Verifica se o quarto existe
                     int posQuarto = -1;
                     for (int i = 0; i < qtdQuartos; i++) {
                         if (numerosQuartos[i] == numQuartoReserva) {
@@ -102,12 +98,10 @@ public class GestaoReservasSunStay {
                         System.out.print("Informe o nome do hóspede: ");
                         String nomeHospede = sc.nextLine();
 
-                        // Efetua a reserva
                         reservasQuarto[totalReservas] = numQuartoReserva;
                         reservasHospede[totalReservas] = nomeHospede;
                         totalReservas++;
 
-                        // Decrementa o número de camas disponíveis
                         camasQuartos[posQuarto]--;
 
                         System.out.println("Reserva realizada com sucesso!");
@@ -124,7 +118,6 @@ public class GestaoReservasSunStay {
                     int numQuartoConsulta = sc.nextInt();
                     sc.nextLine();
 
-                    // Verifica se o quarto existe
                     boolean quartoExiste = false;
                     for (int i = 0; i < qtdQuartos; i++) {
                         if (numerosQuartos[i] == numQuartoConsulta) {
