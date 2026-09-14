@@ -1,19 +1,19 @@
+package outros;
+
 import java.util.Scanner;
 
-public class Tabuada {
+public class ContagemRegressiva {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
         System.out.println("Informe um número inteiro: ");
         int numero = sc.nextInt();
         
+        for(int i=numero ; i>=0 ;i--){
+        System.out.println("Número: "+i);
+    }
 
-        for(int i = 1;i<=10;i++){
-            int resultado = numero*i;
-            System.out.println(""+numero+"X"+i+"="+resultado);
-        
-        }
-        
+    System.out.println("Lançamento realizado!");
         
         sc.close();
     }

@@ -1,3 +1,4 @@
+package outros;
 import java.util.Scanner; // Importa a ferramenta de leitura do teclado
 
 public class ExemploBase {

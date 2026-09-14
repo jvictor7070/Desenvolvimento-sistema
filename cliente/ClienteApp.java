@@ -1,3 +1,4 @@
+package cliente;
 import java.util.Scanner;
 
 public class ClienteApp {

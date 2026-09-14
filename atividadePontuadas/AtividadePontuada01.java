@@ -1,3 +1,4 @@
+package atividadePontuadas;
 import java.util.Scanner;
 
 public class AtividadePontuada01 {

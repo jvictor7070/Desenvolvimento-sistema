@@ -1,17 +1,22 @@
 package outros;
+import java.util.Scanner;
+
 public class Tabuada {
-   public Tabuada() {
-   }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
 
-   public static void main(String[] var0) {
-      for(int var1 = 1; var1 <= 10; ++var1) {
-         for(int var2 = 1; var2 <= 10; ++var2) {
-            int var3 = var1 * var2;
-            System.out.println(var1 + "x" + var2 + "=" + var3);
-         }
+        System.out.println("Informe um número inteiro: ");
+        int numero = sc.nextInt();
+        
 
-         System.out.println();
-      }
-
-   }
+        for(int i = 1;i<=10;i++){
+            int resultado = numero*i;
+            System.out.println(""+numero+"X"+i+"="+resultado);
+        
+        }
+        
+        
+        sc.close();
+    }
+    
 }
