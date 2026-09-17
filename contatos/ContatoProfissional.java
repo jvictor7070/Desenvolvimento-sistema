@@ -1,3 +1,4 @@
+package contatos;
 public class ContatoProfissional extends Contato {
     private String empresa;
     private String cargo;

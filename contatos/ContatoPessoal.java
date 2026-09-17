@@ -1,3 +1,4 @@
+package contatos;
 public class ContatoPessoal extends Contato {
     private String parentesco;
 

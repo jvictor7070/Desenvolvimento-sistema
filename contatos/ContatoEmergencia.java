@@ -1,3 +1,4 @@
+package contatos;
 public class ContatoEmergencia extends Contato {
     private String grauPrioridade;
 
