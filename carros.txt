@@ -1,0 +1,4 @@
+Marca: folksvagner
+Modelo: fiatre
+Ano: 2026
+----------------------------------------
