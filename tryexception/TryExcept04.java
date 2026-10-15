@@ -1,3 +1,4 @@
+package tryexception;
 import java.util.Scanner;
 
 public class TryExcept04 {

@@ -1,3 +1,4 @@
+package tryexception;
 public class TryExcept02 {
     public static void main(String[] args) {
         int [] numeros={10,20,30};
