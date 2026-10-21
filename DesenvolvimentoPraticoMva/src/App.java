@@ -1,5 +1,8 @@
+import view.TelaLogin;
+
 public class App {
     public static void main(String[] args) throws Exception {
-        System.out.println("Hello, World!");
+        TelaLogin loginView = new TelaLogin();
+        loginView.setVisible(true);
     }
 }
