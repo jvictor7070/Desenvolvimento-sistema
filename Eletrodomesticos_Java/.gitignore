@@ -1,9 +1,0 @@
-# Maven
-target/
-
-# Compiled class files
-*.class
-
-# IDE
-.vscode/
-.idea/
