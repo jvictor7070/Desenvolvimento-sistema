@@ -1,0 +1,18 @@
+package br.com.example.model;
+
+public class Gerente extends Funcionario {
+    private String departamento;
+
+    public Gerente (int matricula, String nome, int idade, String departamento) {
+    super (matricula, nome, idade);
+    this.departamento = departamento;
+    }
+
+    @Override
+    public void exibirInfo() {
+        super.exibirInfo();
+        System.out.println("Departamento" + departamento);
+    }
+
+
+}
