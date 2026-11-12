@@ -20,32 +20,37 @@ public class FuncionarioDao {
     public boolean cadastrar(Funcionario funcionario) {
         String sql = "INSERT INTO funcionarios(matricula, nome, idade, tipo, departamento, funcao) VALUES(?,?,?,?,?,?)";
         try (Connection conexao = getConexao();
-             PreparedStatement comando = conexao.prepareStatement(sql)) {
-            comando.setInt(1, funcionario.getMatricula());
-            comando.setString(2, funcionario.getNome());
-            comando.setInt(3, funcionario.getIdade());
-            comando.setString(4, funcionario instanceof Gerente ? ((Gerente) funcionario).getDepartamento() : null);
-            comando.setString(5, funcionario instanceof Operador ? ((Operador) funcionario).getFuncao() : null);
-            comando.setString(6, funcionario instanceof Gerente ? "GER" : funcionario instanceof Operador ? "OPR" : "FUNC");
-            
-            String tipo = "FUNC";
-            if (funcionario instanceof Gerente) {
-                tipo = "GER";
-            } else if (funcionario instanceof Operador) {
-                tipo = "OPR";
-            }
-            comando.setString(4, tipo);
-            comando.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            System.out.println("Erro ao cadastrar: " + e.getMessage());
-            return false;
+             PreparedStatement comando = conexao.prepareStatement(sql)){
+
+                String tipo = "FUNC";
+                String departamento = "null";
+                String funcao = "null";
+
+                if(funcionario instanceof  Gerente){
+                    tipo = "Ger";
+                    departamento = ((Gerente) funcionario).getDepartamento();
+                }else if (funcionario instanceof Operador) {
+            tipo = "OPR";
+            funcao = ((Operador) funcionario).getFuncao();
         }
+        comando.setInt(1, funcionario.getMatricula());
+        comando.setString(2, funcionario.getNome());
+        comando.setInt(3, funcionario.getIdade());
+        comando.setString(4, tipo);
+        comando.setString(5, departamento);
+        comando.setString(6, funcao);
+
+        comando.executeUpdate();
+        return true;
+    } catch (SQLException e) {
+        System.out.println("Erro ao cadastrar: " + e.getMessage());
+        return false;
+    }
     }
 
     public ArrayList<Funcionario> listar() {
         ArrayList<Funcionario> funcionarios = new ArrayList<>();
-        String sql = "SELECT matricula, nome, idade, tipo FROM funcionarios ORDER BY matricula";
+        String sql = "SELECT matricula, nome, idade,tipo, departamento,funcao FROM funcionarios ORDER BY matricula";
 
         try (Connection conexao = getConexao();
              PreparedStatement comando = conexao.prepareStatement(sql);
@@ -105,13 +110,16 @@ public class FuncionarioDao {
         return null;
     }
 
-    public boolean alterar(int matricula, String nome, int idade) {
-        String sql = "UPDATE funcionarios SET nome=?, idade=? WHERE matricula=?";
+    public boolean alterar(int matricula, String nome, int idade, String tipo,String departamento,String funcao) {
+        String sql = "UPDATE funcionarios SET matricula=?, nome=?, idade=?, tipo=?, departamento=?, funcao=? WHERE matricula=?";
         try (Connection conexao = getConexao();
              PreparedStatement comando = conexao.prepareStatement(sql)) {
                 comando.setInt(1, matricula);
-            comando.setString(2, nome);
-            comando.setInt(3, idade);
+                comando.setString(2, nome);
+                comando.setInt(3, idade);
+                comando.setString(4, tipo);
+                comando.setString(5, departamento);
+                comando.setString(6, funcao);
             return comando.executeUpdate() > 0;
 
         } catch (SQLException e) {
