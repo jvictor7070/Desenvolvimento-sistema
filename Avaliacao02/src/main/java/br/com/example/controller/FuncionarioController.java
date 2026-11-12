@@ -135,7 +135,7 @@ public class FuncionarioController {
             return;
         }
 
-        // 1. Solicita o novo tipo (1 - Gerente / 2 - Operador)
+        
         int tipo = view.solicitarTipo();
 
         if (tipo != 1 && tipo != 2) {
@@ -143,7 +143,7 @@ public class FuncionarioController {
             return;
         }
 
-        // 2. Solicita os dados básicos
+    
         String nome = view.solicitarNome();
         int idade = view.solicitarIdade();
 
@@ -152,7 +152,7 @@ public class FuncionarioController {
             return;
         }
 
-        // 3. Cria uma nova instância conforme o novo tipo escolhido, mantendo a mesma matrícula
+      
         if (tipo == 1) {
             String departamento = view.solicitarDepartamento();
 
@@ -174,7 +174,7 @@ public class FuncionarioController {
             funcionario = new Operador(matricula, nome, idade, funcao);
         }
 
-        // 4. Envia o objeto atualizado para o DAO
+    
         if (dao.alterar(funcionario)) {
             view.mostrarMensagem("Funcionário alterado com sucesso!");
         } else {

@@ -27,7 +27,7 @@ public class FuncionarioDao {
             String funcao = "null";
 
             if (funcionario instanceof Gerente) {
-                tipo = "GER"; // Padronizado em maiúsculo para bater com listar() e buscar()
+                tipo = "GER";
                 departamento = ((Gerente) funcionario).getDepartamento();
             } else if (funcionario instanceof Operador) {
                 tipo = "OPR";
@@ -105,7 +105,6 @@ public class FuncionarioDao {
         return null;
     }
 
-    // Método corrigido recebendo o objeto Funcionario que o Controller envia
     public boolean alterar(Funcionario funcionario) {
         String sql = "UPDATE funcionarios SET nome=?, idade=?, tipo=?, departamento=?, funcao=? WHERE matricula=?";
         try (Connection conexao = getConexao();
@@ -128,7 +127,7 @@ public class FuncionarioDao {
             comando.setString(3, tipo);
             comando.setString(4, departamento);
             comando.setString(5, funcao);
-            comando.setInt(6, funcionario.getMatricula()); // Parâmetro do WHERE
+            comando.setInt(6, funcionario.getMatricula()); 
 
             return comando.executeUpdate() > 0;
 

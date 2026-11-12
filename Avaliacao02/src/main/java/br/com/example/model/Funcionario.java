@@ -48,7 +48,6 @@ public class Funcionario {
     }
     
     public void exibirInfo() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'exibirInfo'");
     }
 
