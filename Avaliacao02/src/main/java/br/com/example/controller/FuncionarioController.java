@@ -135,6 +135,15 @@ public class FuncionarioController {
             return;
         }
 
+        // 1. Solicita o novo tipo (1 - Gerente / 2 - Operador)
+        int tipo = view.solicitarTipo();
+
+        if (tipo != 1 && tipo != 2) {
+            view.mostrarMensagem("Tipo de funcionário inválido!");
+            return;
+        }
+
+        // 2. Solicita os dados básicos
         String nome = view.solicitarNome();
         int idade = view.solicitarIdade();
 
@@ -143,10 +152,8 @@ public class FuncionarioController {
             return;
         }
 
-        funcionario.setNome(nome);
-        funcionario.setIdade(idade);
-
-        if (funcionario instanceof Gerente) {
+        // 3. Cria uma nova instância conforme o novo tipo escolhido, mantendo a mesma matrícula
+        if (tipo == 1) {
             String departamento = view.solicitarDepartamento();
 
             if (departamento == null || departamento.trim().isEmpty()) {
@@ -154,9 +161,9 @@ public class FuncionarioController {
                 return;
             }
 
-            ((Gerente) funcionario).setDepartamento(departamento);
+            funcionario = new Gerente(matricula, nome, idade, departamento);
 
-        } else if (funcionario instanceof Operador) {
+        } else {
             String funcao = view.solicitarFuncao();
 
             if (funcao == null || funcao.trim().isEmpty()) {
@@ -164,9 +171,10 @@ public class FuncionarioController {
                 return;
             }
 
-            ((Operador) funcionario).setFuncao(funcao);
+            funcionario = new Operador(matricula, nome, idade, funcao);
         }
 
+        // 4. Envia o objeto atualizado para o DAO
         if (dao.alterar(funcionario)) {
             view.mostrarMensagem("Funcionário alterado com sucesso!");
         } else {

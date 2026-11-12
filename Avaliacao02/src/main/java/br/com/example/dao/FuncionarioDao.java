@@ -20,37 +20,38 @@ public class FuncionarioDao {
     public boolean cadastrar(Funcionario funcionario) {
         String sql = "INSERT INTO funcionarios(matricula, nome, idade, tipo, departamento, funcao) VALUES(?,?,?,?,?,?)";
         try (Connection conexao = getConexao();
-             PreparedStatement comando = conexao.prepareStatement(sql)){
+             PreparedStatement comando = conexao.prepareStatement(sql)) {
 
-                String tipo = "FUNC";
-                String departamento = "null";
-                String funcao = "null";
+            String tipo = "FUNC";
+            String departamento = "null";
+            String funcao = "null";
 
-                if(funcionario instanceof  Gerente){
-                    tipo = "Ger";
-                    departamento = ((Gerente) funcionario).getDepartamento();
-                }else if (funcionario instanceof Operador) {
-            tipo = "OPR";
-            funcao = ((Operador) funcionario).getFuncao();
+            if (funcionario instanceof Gerente) {
+                tipo = "GER"; // Padronizado em maiúsculo para bater com listar() e buscar()
+                departamento = ((Gerente) funcionario).getDepartamento();
+            } else if (funcionario instanceof Operador) {
+                tipo = "OPR";
+                funcao = ((Operador) funcionario).getFuncao();
+            }
+
+            comando.setInt(1, funcionario.getMatricula());
+            comando.setString(2, funcionario.getNome());
+            comando.setInt(3, funcionario.getIdade());
+            comando.setString(4, tipo);
+            comando.setString(5, departamento);
+            comando.setString(6, funcao);
+
+            comando.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println("Erro ao cadastrar: " + e.getMessage());
+            return false;
         }
-        comando.setInt(1, funcionario.getMatricula());
-        comando.setString(2, funcionario.getNome());
-        comando.setInt(3, funcionario.getIdade());
-        comando.setString(4, tipo);
-        comando.setString(5, departamento);
-        comando.setString(6, funcao);
-
-        comando.executeUpdate();
-        return true;
-    } catch (SQLException e) {
-        System.out.println("Erro ao cadastrar: " + e.getMessage());
-        return false;
-    }
     }
 
     public ArrayList<Funcionario> listar() {
         ArrayList<Funcionario> funcionarios = new ArrayList<>();
-        String sql = "SELECT matricula, nome, idade,tipo, departamento,funcao FROM funcionarios ORDER BY matricula";
+        String sql = "SELECT matricula, nome, idade, tipo, departamento, funcao FROM funcionarios ORDER BY matricula";
 
         try (Connection conexao = getConexao();
              PreparedStatement comando = conexao.prepareStatement(sql);
@@ -59,12 +60,10 @@ public class FuncionarioDao {
             while (resultado.next()) {
                 Funcionario func;
                 String tipo = resultado.getString("tipo");
-                if (tipo.equals("GER")) {
-                    Gerente gerente = new Gerente(resultado.getInt("matricula"), resultado.getString("nome"), resultado.getInt("idade"), resultado.getString("departamento"));
-                    func = gerente;
-                } else if (tipo.equals("OPR")) {
-                    Operador operador = new Operador(resultado.getInt("matricula"), resultado.getString("nome"), resultado.getInt("idade"), resultado.getString("funcao"));
-                    func = operador;
+                if ("GER".equals(tipo)) {
+                    func = new Gerente(resultado.getInt("matricula"), resultado.getString("nome"), resultado.getInt("idade"), resultado.getString("departamento"));
+                } else if ("OPR".equals(tipo)) {
+                    func = new Operador(resultado.getInt("matricula"), resultado.getString("nome"), resultado.getInt("idade"), resultado.getString("funcao"));
                 } else {
                     func = new Funcionario();
                     func.setMatricula(resultado.getInt("matricula"));
@@ -87,14 +86,10 @@ public class FuncionarioDao {
             try (ResultSet resultado = comando.executeQuery()) {
                 if (resultado.next()) {
                     String tipo = resultado.getString("tipo");
-                    if (tipo.equals("GER")) {
-
-                        Gerente gerente = new Gerente(resultado.getInt("matricula"), resultado.getString("nome"), resultado.getInt("idade"), resultado.getString("departamento"));
-                        return gerente;
-                    } else if (tipo.equals("OPR")) {
-
-                        Operador operador = new Operador(resultado.getInt("matricula"), resultado.getString("nome"), resultado.getInt("idade"), resultado.getString("funcao"));
-                        return operador;
+                    if ("GER".equals(tipo)) {
+                        return new Gerente(resultado.getInt("matricula"), resultado.getString("nome"), resultado.getInt("idade"), resultado.getString("departamento"));
+                    } else if ("OPR".equals(tipo)) {
+                        return new Operador(resultado.getInt("matricula"), resultado.getString("nome"), resultado.getInt("idade"), resultado.getString("funcao"));
                     } else {
                         Funcionario func = new Funcionario();
                         func.setMatricula(resultado.getInt("matricula"));
@@ -110,30 +105,41 @@ public class FuncionarioDao {
         return null;
     }
 
-    public boolean alterar(int matricula, String nome, int idade, String tipo,String departamento,String funcao) {
-        String sql = "UPDATE funcionarios SET matricula=?, nome=?, idade=?, tipo=?, departamento=?, funcao=? WHERE matricula=?";
+    // Método corrigido recebendo o objeto Funcionario que o Controller envia
+    public boolean alterar(Funcionario funcionario) {
+        String sql = "UPDATE funcionarios SET nome=?, idade=?, tipo=?, departamento=?, funcao=? WHERE matricula=?";
         try (Connection conexao = getConexao();
              PreparedStatement comando = conexao.prepareStatement(sql)) {
-                comando.setInt(1, matricula);
-                comando.setString(2, nome);
-                comando.setInt(3, idade);
-                comando.setString(4, tipo);
-                comando.setString(5, departamento);
-                comando.setString(6, funcao);
+
+            String tipo = "FUNC";
+            String departamento = "null";
+            String funcao = "null";
+
+            if (funcionario instanceof Gerente) {
+                tipo = "GER";
+                departamento = ((Gerente) funcionario).getDepartamento();
+            } else if (funcionario instanceof Operador) {
+                tipo = "OPR";
+                funcao = ((Operador) funcionario).getFuncao();
+            }
+
+            comando.setString(1, funcionario.getNome());
+            comando.setInt(2, funcionario.getIdade());
+            comando.setString(3, tipo);
+            comando.setString(4, departamento);
+            comando.setString(5, funcao);
+            comando.setInt(6, funcionario.getMatricula()); // Parâmetro do WHERE
+
             return comando.executeUpdate() > 0;
 
         } catch (SQLException e) {
-
             System.out.println("Erro ao alterar: " + e.getMessage());
-
             return false;
-
         }
     }
+
     public boolean remover(int matricula) {
-
         String sql = "DELETE FROM funcionarios WHERE matricula=?";
-
         try (Connection conexao = getConexao();
              PreparedStatement comando = conexao.prepareStatement(sql)) {
             comando.setInt(1, matricula);
@@ -142,9 +148,5 @@ public class FuncionarioDao {
             System.out.println("Erro ao remover: " + e.getMessage());
             return false;
         }
-    }
-
-    public boolean alterar(Funcionario funcionario) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
