@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import br.com.example.conexao.Conexao;
 import br.com.example.model.Funcionario;
+import br.com.example.model.FuncionarioPadrao;
 import br.com.example.model.Gerente;
 import br.com.example.model.Operador;
 
@@ -65,10 +66,7 @@ public class FuncionarioDao {
                 } else if ("OPR".equals(tipo)) {
                     func = new Operador(resultado.getInt("matricula"), resultado.getString("nome"), resultado.getInt("idade"), resultado.getString("funcao"));
                 } else {
-                    func = new Funcionario();
-                    func.setMatricula(resultado.getInt("matricula"));
-                    func.setNome(resultado.getString("nome"));
-                    func.setIdade(resultado.getInt("idade"));
+                    func = new FuncionarioPadrao(resultado.getInt("matricula"), resultado.getString("nome"), resultado.getInt("idade"));
                 }
                 funcionarios.add(func);
             }
@@ -91,11 +89,7 @@ public class FuncionarioDao {
                     } else if ("OPR".equals(tipo)) {
                         return new Operador(resultado.getInt("matricula"), resultado.getString("nome"), resultado.getInt("idade"), resultado.getString("funcao"));
                     } else {
-                        Funcionario func = new Funcionario();
-                        func.setMatricula(resultado.getInt("matricula"));
-                        func.setNome(resultado.getString("nome"));
-                        func.setIdade(resultado.getInt("idade"));
-                        return func;
+                        return new FuncionarioPadrao(resultado.getInt("matricula"), resultado.getString("nome"), resultado.getInt("idade"));
                     }
                 }
             }

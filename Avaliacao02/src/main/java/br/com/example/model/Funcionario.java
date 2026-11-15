@@ -1,11 +1,10 @@
 package br.com.example.model;
 
 
-public class Funcionario {
+public abstract class Funcionario {
     private int matricula;
     private String nome;
     private int idade;
-    private String tipo;
 
     public Funcionario(){}
 
@@ -13,7 +12,6 @@ public class Funcionario {
         this.matricula = matricula;
         this.nome = nome;
         this.idade = idade;
-        this.tipo=tipo;
     }
 
     public int getMatricula() {
@@ -38,18 +36,8 @@ public class Funcionario {
     public void setIdade(int idade) {
         this.idade = idade;
     }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
     
-    public void exibirInfo() {
-        throw new UnsupportedOperationException("Unimplemented method 'exibirInfo'");
-    }
+    public abstract void exibirInfo();
 
 
     

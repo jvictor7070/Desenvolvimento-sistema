@@ -18,8 +18,11 @@ public class Gerente extends Funcionario {
 
     @Override
     public void exibirInfo() {
-        super.exibirInfo();
-        System.out.println("Departamento" + departamento);
+        System.out.println("Matrícula: " + getMatricula());
+        System.out.println("Nome: " + getNome());
+        System.out.println("Idade: " + getIdade());
+        System.out.println("Tipo: Gerente");
+        System.out.println("Departamento: " + departamento);
     }
 
 

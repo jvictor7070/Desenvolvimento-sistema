@@ -86,45 +86,47 @@ public class FuncionarioView {
     }
 
     public void exibirFuncionario(Funcionario funcionario) {
-        String dados = "Matrícula: " + funcionario.getMatricula()
-                + "\nNome: " + funcionario.getNome()
-                + "\nIdade: " + funcionario.getIdade();
+        StringBuilder dados = new StringBuilder();
+        dados.append("Matrícula: ").append(funcionario.getMatricula())
+             .append("\nNome: ").append(funcionario.getNome())
+             .append("\nIdade: ").append(funcionario.getIdade());
 
         if (funcionario instanceof Gerente) {
             Gerente gerente = (Gerente) funcionario;
-            dados += "\nTipo: Gerente"
-                    + "\nDepartamento: " + gerente.getDepartamento();
+            dados.append("\nTipo: Gerente")
+                 .append("\nDepartamento: ").append(gerente.getDepartamento());
 
         } else if (funcionario instanceof Operador) {
             Operador operador = (Operador) funcionario;
-            dados += "\nTipo: Operador"
-                    + "\nFunção: " + operador.getFuncao();
+            dados.append("\nTipo: Operador")
+                 .append("\nFunção: ").append(operador.getFuncao());
         }
 
-        JOptionPane.showMessageDialog(null, dados);
+        JOptionPane.showMessageDialog(null, dados.toString());
     }
 
     public void exibirFuncionarios(List<Funcionario> funcionarios) {
-        String dados = "LISTA DE FUNCIONÁRIOS\n\n";
+        StringBuilder dados = new StringBuilder("LISTA DE FUNCIONÁRIOS\n\n");
 
         for (Funcionario funcionario : funcionarios) {
-            dados += "Matrícula: " + funcionario.getMatricula()
-                    + "\nNome: " + funcionario.getNome()
-                    + "\nIdade: " + funcionario.getIdade();
+            dados.append("Matrícula: ").append(funcionario.getMatricula())
+                 .append("\nNome: ").append(funcionario.getNome())
+                 .append("\nIdade: ").append(funcionario.getIdade());
 
             if (funcionario instanceof Gerente) {
                 Gerente gerente = (Gerente) funcionario;
-                dados += "\nTipo: Gerente"
-                        + "\nDepartamento: " + gerente.getDepartamento();
+                dados.append("\nTipo: Gerente")
+                     .append("\nDepartamento: ").append(gerente.getDepartamento());
 
             } else if (funcionario instanceof Operador) {
                 Operador operador = (Operador) funcionario;
-                dados += "\nTipo: Operador"
-                        + "\nFunção: " + operador.getFuncao();
+                dados.append("\nTipo: Operador")
+                     .append("\nFunção: ").append(operador.getFuncao());
             }
 
-            dados += "\n-------------------------\n";
+            dados.append("\n-------------------------\n");
         }
 
-        JOptionPane.showMessageDialog(null, dados);
-    }}
+        JOptionPane.showMessageDialog(null, dados.toString());
+    }
+}
