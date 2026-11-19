@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <title>Listagem de Produtos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <div class="container">
+        <a class="navbar-brand" href="cadastro.html">Produtos</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="cadastro.html">Cadastrar</a></li>
+                <li class="nav-item"><a class="nav-link active" href="listar.html">Listar</a></li>
+                <li class="nav-item"><a class="nav-link" href="alterar.html">Editar</a></li>
+                <li class="nav-item"><a class="nav-link" href="remover.html">Remover</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="card shadow-sm">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Lista de Produtos</h5>
+            <button id="btnCarregar" class="btn btn-outline-light btn-sm bg-primary">Recarregar</button>
+        </div>
+        <div class="card-body">
+
+            <div id="mensagem" class="mb-3"></div>
+
+            <div class="table-responsive">
+                <table id="tabelaProdutos" class="table table-striped table-hover align-middle mb-0">
+                    <thead class="table-dark">
+                    <tr>
+                        <th style="width: 10%;">Código</th>
+                        <th style="width: 45%;">Nome</th>
+                        <th style="width: 45%;">Marca</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Linhas via JS -->
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    const tabelaBody = document.querySelector('#tabelaProdutos tbody');
+    const mensagemDiv = document.getElementById('mensagem');
+
+    async function carregarProdutos() {
+        mensagemDiv.textContent = '';
+        mensagemDiv.className = '';
+
+        tabelaBody.innerHTML = '<tr><td colspan="3" class="text-center">Carregando...</td></tr>';
+
+        try {
+            const response = await fetch('/listar');
+
+            if (!response.ok) {
+                tabelaBody.innerHTML = '';
+                mensagemDiv.textContent = 'Erro ao buscar produtos.';
+                mensagemDiv.className = 'alert alert-danger';
+                return;
+            }
+
+            const produtos = await response.json();
+            tabelaBody.innerHTML = '';
+
+            if (!produtos || produtos.length === 0) {
+                tabelaBody.innerHTML = '<tr><td colspan="3" class="text-center">Nenhum produto cadastrado.</td></tr>';
+                return;
+            }
+
+            produtos.forEach(produto => {
+                const tr = document.createElement('tr');
+
+                const tdCodigo = document.createElement('td');
+                tdCodigo.textContent = produto.codigo;
+
+                const tdNome = document.createElement('td');
+                tdNome.textContent = produto.nome;
+
+                const tdMarca = document.createElement('td');
+                tdMarca.textContent = produto.marca;
+
+                tr.appendChild(tdCodigo);
+                tr.appendChild(tdNome);
+                tr.appendChild(tdMarca);
+
+                tabelaBody.appendChild(tr);
+            });
+        } catch (erro) {
+            console.error(erro);
+            tabelaBody.innerHTML = '';
+            mensagemDiv.textContent = 'Erro ao conectar com o servidor.';
+            mensagemDiv.className = 'alert alert-danger';
+        }
+    }
+
+    document.getElementById('btnCarregar').addEventListener('click', carregarProdutos);
+    document.addEventListener('DOMContentLoaded', carregarProdutos);
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
